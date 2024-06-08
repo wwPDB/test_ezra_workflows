@@ -13,5 +13,4 @@ jobs:
     name: Deploy github repository on development
     uses: wwPDB/test-reusable-actions/.github/workflows/autodeploy.yml@main
     secrets:
-      token: foo
-      servers: bar
+      server_token: "{'test.com': 'abcdef'}"
