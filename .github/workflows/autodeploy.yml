@@ -35,7 +35,6 @@ on:
       AZURE_AUTODEPLOY_TOKEN:
         description: "Token to trigger azure pipeline"
         required: true
-        type: string
 
 jobs:
   print_dev:
