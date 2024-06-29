@@ -32,12 +32,10 @@ on:
         type: string
 
     secrets:
-      server_token:
-        description: "deployment key"
+      AZURE_AUTODEPLOY_TOKEN:
+        description: "Token to trigger azure pipeline"
         required: true
-      server_url:
-        description: "URL of triggering server to dply"
-        required: true
+        type: string
 
 jobs:
   print_dev:
@@ -50,15 +48,11 @@ jobs:
   deploy_dev:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch num squared
-        uses: epeisach/gh_autodeploy_pipeline@main
-        id: get_square
+      - name: Azure Pipelines Action
+        #uses: Azure/pipelines@v1.2
+        uses: wwpdb/pipelines@wwPDB
         with:
-          num: 11
-          
-          #url: ${{secrets.server_url}}/update
-          #method: 'POST'
-          #data: '{"api_key": "${{secrets.server_token}}"}'
-      - name: Print the square
-        run: echo "${{ steps.get_square.outputs.num_squared }}"
-        
+          azure-devops-project-url: https://dev.azure.com/wwPDB/wwPDB%20Python%20Projects
+          azure-pipeline-name: 'wwPDB.azure_autodeploy_pipeline'
+          azure-devops-token: ${{ secrets.AZURE_AUTODEPLOY_TOKEN }}
+          azure-pipeline-variables: '{"git_repo": "${{github.repository}}", "git_branch": "${{github.ref_name}}", "git_sha": "${{github.sha}}", "git_actor": "${{github.actor}}", "git_owner": "${{github.repository_owner}}"}'

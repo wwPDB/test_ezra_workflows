@@ -13,5 +13,4 @@ jobs:
     name: Deploy github repository on development
     uses: ./.github/workflows/autodeploy.yml
     secrets:
-      server_token: sss
-      server_url: https://test.com:9000
+      AZURE_AUTODEPLOY_TOKEN: ${{secrets.AZURE_AUTODEPLOY_TOKEN}}
