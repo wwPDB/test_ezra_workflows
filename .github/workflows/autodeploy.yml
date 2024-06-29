@@ -1,0 +1,64 @@
+name: AutoDeploy
+
+# Triggers deployment of code to test servers
+on:
+  workflow_call:
+    # inputs: will be the various git ones
+    inputs:
+      git_repo:
+        description: "The github repository to act on"
+        required: false
+        default: ${{github.repository}}
+        type: string
+      git_banch:
+        description: "The branch the commit is on"
+        required: false
+        default: ${{github.ref_name}}
+        type: string
+      git_sha:
+        description: "SHA of commit"
+        required: false
+        default: ${{github.sha}}
+        type: string
+      git_actor:
+        description: "The user making ht commit"
+        required: false
+        default: ${{github.actor}}
+        type: string
+      git_owner:
+        description: "The owner/organization of repository"
+        required: false
+        default: ${{github.repository_owner}}
+        type: string
+
+    secrets:
+      server_token:
+        description: "deployment key"
+        required: true
+      server_url:
+        description: "URL of triggering server to dply"
+        required: true
+
+jobs:
+  print_dev:
+    runs-on: ubuntu-latest
+    steps:
+      - id: "Output_vars"
+        run: echo "MyRepo is ${{inputs.git_repo}} sha is ${{inputs.git_sha}} actor is ${{inputs.git_actor}} branch is ${{inputs.git_banch}} ownser is ${{inputs.git_owner}} ${{secrets.server_token}} ${{secrets.server_name}}"
+#
+
+  deploy_dev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch num squared
+        uses: epeisach/gh_autodeploy_pipeline@main
+        id: get_square
+        with:
+          num: 11
+          
+          #url: ${{secrets.server_url}}/update
+          #method: 'POST'
+          #data: '{"api_key": "${{secrets.server_token}}"}'
+      - name: Print the square
+        run: echo "${{ steps.get_square.outputs.num_squared }}"
+        
