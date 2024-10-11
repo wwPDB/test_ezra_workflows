@@ -11,5 +11,5 @@ on:
 jobs:
   deploy_dev:
     name: Deploy github repository on development
-    uses: wwPDB/test-reusable-actions/.github/workflows/autodeploy.yml@main
+    uses: wwPDB/wwpdb-reusable-actions/.github/workflows/autodeploy.yml@main
     secrets: inherit
